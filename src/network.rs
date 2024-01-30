@@ -289,6 +289,10 @@ fn init_access_point_credentials(
             identity: identity.to_string(),
             passphrase: passphrase.to_string(),
         }
+    } else if access_point.security.contains(Security::WPA3) {
+        AccessPointCredentials::Sae {
+            passphrase: passphrase.to_string(),
+        }
     } else if access_point.security.contains(Security::WPA2)
         || access_point.security.contains(Security::WPA)
     {
@@ -409,6 +413,7 @@ fn get_iw_network_info(access_point: &wifiscanner::Wifi) -> Network {
 fn get_iw_network_security(access_point: &wifiscanner::Wifi) -> &str {
     match access_point.security.as_str() {
         "802.1X" => "enterprise",
+        "SAE" => "wpa3",
         "" => "none",
         _ => "wpa",
     }
