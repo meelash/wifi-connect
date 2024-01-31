@@ -382,7 +382,7 @@ fn get_iw_access_points_impl() -> Result<Vec<wifiscanner::Wifi>> {
     access_points.retain(|ap| inserted.insert(ap.ssid.clone()));
 
     // Remove access points without SSID (hidden)
-    access_points.retain(|ap| !ap.ssid.is_empty());
+    access_points.retain(|ap| !ap.ssid.starts_with("\\x00"));
 
     if !access_points.is_empty() {
         info!(
